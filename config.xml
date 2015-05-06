@@ -7,20 +7,18 @@
     <author email="jmyeglinski@gmail.com">
         HR
     </author>
-    <icon src="www/images/app_icon.png" />
+    <icon src="www/images/ionic.png" />
     <content src="index.html" />
     <access origin="*" />
     <preference name="webviewbounce" value="false" />
     <preference name="UIWebViewBounce" value="false" />
     <preference name="DisallowOverscroll" value="true" />
     <preference name="BackupWebStorage" value="none" />
-
     <feature name="StatusBar">
-        <param name="ios-package" value="CDVStatusBar" onload="true" />
+        <param name="ios-package" onload="true" value="CDVStatusBar" />
     </feature>
-
-    <!--<cdv:plugin name="de.appplant.cordova.plugin.local-notification" />-->
     <cdv:plugin name="org.apache.cordova.battery-status" />
     <cdv:plugin name="org.apache.cordova.contacts" />
     <cdv:plugin name="org.apache.cordova.plugin.sms" />
+    <!--<plugin name="org.apache.cordova.statusbar" spec="^0.1.10" />-->
 </widget>

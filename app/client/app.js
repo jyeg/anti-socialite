@@ -21,7 +21,7 @@
 //})
 angular.module('starter', [
 	'ionic',
-	"ngCordova",
+	//"ngCordova",
 	'config',
 	'LocalStorageModule',
 
@@ -82,7 +82,7 @@ angular.module('starter', [
 		});
 	})
 
-.config(function($stateProvider, $urlRouterProvider , localStorageServiceProvider) {
+.config(function($stateProvider, $urlRouterProvider , localStorageServiceProvider ) {
   $stateProvider
 
   //.state('app', {
@@ -115,7 +115,7 @@ angular.module('starter', [
 			});
 
   	// if none of the above states are matched, use this as the fallback
-		$urlRouterProvider.otherwise('/loading');
+		$urlRouterProvider.otherwise('/intro');
 
 		localStorageServiceProvider
 			.setPrefix('lon');

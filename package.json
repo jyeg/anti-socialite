@@ -50,8 +50,17 @@
     "test": "grunt test"
   },
   "cordovaPlugins": [
+    "https://github.com/driftyco/ionic-plugins-keyboard.git",
+    "org.apache.cordova.statusbar",
     "org.apache.cordova.console",
-    "org.apache.cordova.device",
-    "com.ionic.keyboard"
+    "cordova-plugin-battery-status",
+    "cordova-plugin-contacts",
+    "https://github.com/aharris88/phonegap-sms-plugin.git",
+    "https://github.com/phpsa/cbsp.git",
+    "org.apache.cordova.console",
+    "org.apache.cordova.statusbar",
+    "https://github.com/phpsa/cbsp.git",
+    "https://github.com/aharris88/phonegap-sms-plugin.git",
+    "https://github.com/driftyco/ionic-plugins-keyboard.git"
   ]
 }

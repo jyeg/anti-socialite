@@ -41,7 +41,7 @@ angular.module('starter.contacts', [])
 
 	function onError(contactError) {
 		$scope.error = contactError;
-		//alert('onError!');
+		alert('contacts find onError!');
 		$ionicLoading.hide();
 	}
 

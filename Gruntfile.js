@@ -21,7 +21,7 @@ module.exports = function (grunt) {
     yeoman: {
       // configurable paths
       app: 'app',
-      scripts: 'scripts',
+      scripts: 'client',
       styles: 'styles',
       images: 'images',
       test: 'test',
@@ -359,7 +359,7 @@ module.exports = function (grunt) {
       },
       continuous: {
         browsers: ['PhantomJS'],
-        singleRun: true,
+        singleRun: true
       }
     },
 
