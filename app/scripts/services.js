@@ -101,7 +101,9 @@ angular.module('antiSocialite.services', ['http-auth-interceptor', 'config'])
 //
 //
 //})
+	//TODO: Couldn't get Auth factory working to where it would make the request from the api.
 
+	//TODO: Need to decouple the url endpoints
 //.factory('AuthenticationService', function($rootScope, $http, authService, localStorageService) {
 //	var service = {
 //		login: function(user) {
@@ -142,29 +144,7 @@ angular.module('antiSocialite.services', ['http-auth-interceptor', 'config'])
 
 	.factory('Messages', function ($http) {
 
-			var data = {
-				userId: 'jmyeg',
-				messages:[{
-					id:1,
-					contactId:'2',
-					contactPhone:'8046831201',
-					text: 'im not a robot, im just antisocialite!',
-					date:'2015-05-01'
-				},{
-					id:2,
-					contactId:'3',
-					contactPhone:'9254870772',
-					text: 'im not a robot, im just an antisocialite!',
-					date:'2015-05-01'
-				},{
-					id:3,
-					contactId:'2',
-					contactPhone:'8046831652',
-					text: 'im not a robot, im just antisocialite!',
-					date:'2015-05-01'
-				}
-				]
-			};
+			// TODO: couldnt get the factory working into the controller.
 		var getMessage = function () {
 			return $http({
 				method: 'GET',
