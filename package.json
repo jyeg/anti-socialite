@@ -2,7 +2,9 @@
   "name": "antiSocialite",
   "version": "0.1.0",
   "private": true,
-  "dependencies": {},
+  "dependencies": {
+    "ionic": "^1.4.1"
+  },
   "devDependencies": {
     "grunt": "~0.4.1",
     "glob": "~4.0.5",
