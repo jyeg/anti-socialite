@@ -10,7 +10,7 @@ plugins
 *.swo
 *.log
 *.DS_Store
-*/.idea/*
+*.idea/*
 _
 
 app/scripts/config.js
