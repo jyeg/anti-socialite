@@ -4,8 +4,16 @@ angular.module('antiSocialite.controllers', [])
 	.controller('IntroCtrl', function ($scope, $state, $ionicSlideBoxDelegate, localStorageService) {
 
 		$scope.startApp = function () {
-			localStorageService.set('skip', false);
-			$state.go('queue.messages');
+			//if (localStorageService && !localStorageService.get("courageousTrapeze")) {
+			//	//$state.go('login');
+			//	alert("inside startApp ctrl");
+			//	//location.href = '#/login';
+			//	$state.go('login');
+			//	//$location.path('/login');
+			//}else{
+				localStorageService.set('skip', false);
+				$state.go('queue.messages');
+			//}
 		};
 		$scope.next = function () {
 			$ionicSlideBoxDelegate.next();
@@ -19,13 +27,13 @@ angular.module('antiSocialite.controllers', [])
 		};
 	})
 
-	.controller('LoginCtrl', function ($ionicPlatform, $scope, $http, $state, localStorageService) {
+	.controller('LoginCtrl', function($ionicPlatform, $scope, $http, $state, localStorageService) {
 		//alert('inside Login ctrl');
 		$scope.message = '';
 		$scope.user = {};
 		//$scope.lonConfig.token = '';
 		$scope.login = function () {
-			$http.post('https://courageoustrapeze.azurewebsites.net/api/users/signin', $scope.user).success(function (data) {
+			$http.post('https://courageoustrapeze.azurewebsites.net/api/users/signin', $scope.user).success(function(data) {
 				//alert("inside Login Ctrl" + data);
 				var token = data.token;
 				//$scope.lonConfig.token = token;
@@ -35,13 +43,85 @@ angular.module('antiSocialite.controllers', [])
 				$http.defaults.headers.common['x-access-token'] = token;
 				$state.go("intro");
 			})
-				.error(function (err) {
+				.error(function(err){
 					$scope.message = err;
 					//$state.go("intro");
 				})
 		}
 
 	})
+	//	$scope.message = '';
+	//
+	//	$scope.user = {
+	//		username: null,
+	//		password: null
+	//	};
+	//
+	//	$scope.login = function() {
+	//		AuthenticationService.login($scope.user);
+	//	};
+	//
+	//	$scope.$on('event:auth-loginRequired', function(e, rejection) {
+	//		console.log('handling login required');
+	//		$scope.loginModal.show();
+	//	});
+	//
+	//	$scope.$on('event:auth-loginConfirmed', function() {
+	//		$scope.username = null;
+	//		$scope.password = null;
+	//		$scope.loginModal.hide();
+	//	});
+	//
+	//	$scope.$on('event:auth-login-failed', function(e, status) {
+	//		var error = 'Login failed.';
+	//		if (status === 401) {
+	//			error = 'Invalid Username or Password.';
+	//		}
+	//		$scope.message = error;
+	//	});
+	//
+	//	$scope.$on('event:auth-logout-complete', function() {
+	//		console.log('logout complete');
+	//		$state.go('app.home', {}, {reload: true, inherit: false});
+	//	});
+	//})
+
+	//app.controller('LoginModalCtrl', function ($scope, UsersApi) {
+	//
+	//	this.cancel = $scope.$dismiss;
+	//
+	//	this.submit = function (email, password) {
+	//		UsersApi.login(email, password).then(function (user) {
+	//			$scope.$close(user);
+	//		});
+	//	};
+	//
+	//})
+	//.controller('AuthController', function ($ionicPlatform, $scope, $window, $location, Auth) {
+	//	$scope.user = {};
+	//
+	//	$scope.signin = function () {
+	//		Auth.signin($scope.user)
+	//			.then(function (token) {
+	//				$window.localStorage.setItem('com.shortly', token);
+	//				$location.path('/messages');
+	//			})
+	//			.catch(function (error) {
+	//				console.error(error);
+	//			});
+	//	};
+	//
+	//	$scope.signup = function () {
+	//		Auth.signup($scope.user)
+	//			.then(function (token) {
+	//				$window.localStorage.setItem('com.shortly', token);
+	//				$location.path('/links');
+	//			})
+	//			.catch(function (error) {
+	//				console.error(error);
+	//			});
+	//	};
+	//})
 
 	.controller('HomeCtrl', function ($ionicPlatform, $scope, $state, localStorageService) {
 
@@ -69,14 +149,14 @@ angular.module('antiSocialite.controllers', [])
 				method: 'GET',
 				url: 'http://courageoustrapeze.azurewebsites.net/api/messages'
 			})
-				.then(function (response) {
+				.then(function(response) {
 					//alert(JSON.stringify(response.data));
 					$scope.allMessages = response.data;
 					return response.data;
 				});
 		};
 
-		var updateMessage = function (message) {
+		var updateMessage = function(message){
 			$http({
 				method: 'POST',
 				url: 'http://courageoustrapeze.azurewebsites.net/api/messages',
@@ -84,7 +164,7 @@ angular.module('antiSocialite.controllers', [])
 			});
 		};
 
-		var deleteMessage = function (message) {
+		var deleteMessage = function(message){
 			//data.messages.splice(data.messages.indexOf(message),1);
 			$http({
 				method: 'DELETE',
@@ -92,6 +172,7 @@ angular.module('antiSocialite.controllers', [])
 				data: message.id
 			});
 		};
+
 
 
 		$scope.shouldShowDelete = false;
@@ -113,6 +194,33 @@ angular.module('antiSocialite.controllers', [])
 		$scope.onItemDelete = function (item) {
 			$scope.allMessages.messages.splice($scope.allMessages.messages.indexOf(item), 1);
 		};
+
+
+		//$ionicModal.fromTemplateUrl('templates/message.html', {
+		//	scope: $scope,
+		//	animation: 'slide-in-up'
+		//}).then(function(modal) {
+		//	$scope.modal = modal;
+		//});
+		//$scope.openModal = function() {
+		//	$scope.modal.show();
+		//};
+		//$scope.closeModal = function() {
+		//	$scope.modal.hide();
+		//};
+		////Cleanup the modal when we're done with it!
+		//$scope.$on('$destroy', function() {
+		//	$scope.modal.remove();
+		//});
+		//// Execute action on hide modal
+		//$scope.$on('modal.hidden', function() {
+		//	// Execute action
+		//});
+		//// Execute action on remove modal
+		//$scope.$on('modal.removed', function() {
+		//	// Execute action
+		//});
+
 
 		$ionicPlatform.ready(function () {
 
@@ -154,8 +262,8 @@ angular.module('antiSocialite.controllers', [])
 
 	.controller('MessageCtrl', function ($scope, $ionicPlatform, $ionicLoading, $state, $stateParams, localStorageService, Messages) {
 		var a = $stateParams.id;
-		Messages.messages().messages.filter(function (val) {
-			if (val.id == $stateParams.id) {
+		Messages.messages().messages.filter(function(val){
+			if(val.id == $stateParams.id){
 				$scope.message = val;
 			}
 		});
@@ -169,10 +277,46 @@ angular.module('antiSocialite.controllers', [])
 		$scope.onItemDelete = function (item) {
 			Messages.remove(item);
 			$state.go('queue.messages');
-			//.messages.splice($scope.allMessages.messages.indexOf(item), 1);
+				//.messages.splice($scope.allMessages.messages.indexOf(item), 1);
 		};
+		//$ionicModal.fromTemplateUrl('templates/message.html', {
+		//	scope: $scope,
+		//	animation: 'slide-in-up'
+		//}).then(function(modal) {
+		//	$scope.modal = modal;
+		//});
+		//$scope.openModal = function() {
+		//	$scope.modal.show();
+		//};
+		//$scope.closeModal = function() {
+		//	$scope.modal.hide();
+		//};
+		////Cleanup the modal when we're done with it!
+		//$scope.$on('$destroy', function() {
+		//	$scope.modal.remove();
+		//});
+		//// Execute action on hide modal
+		//$scope.$on('modal.hidden', function() {
+		//	// Execute action
+		//});
+		//// Execute action on remove modal
+		//$scope.$on('modal.removed', function() {
+		//	// Execute action
+		//});
+		//$scope.lonConfig = {};
+		//$scope.lonConfig.isEnabled = localStorageService.get('lonConfig.isEnabled') === 'true' ? true : false;
+		//$scope.allMessages = Messages.messages();
+		//
+		//$scope.toContacts = function() {
+		//	$state.go('contacts');
+		//};
+		//
+		//$scope.edit = function(item) {
+		//	//alert('Edit Item: ' + item.id);
+		//	$state.go('edit');
+		//};
 
-		// needed to perform any device api work, i.e.
+
 		$ionicPlatform.ready(function () {
 
 			$scope.send = function () {
@@ -194,7 +338,7 @@ angular.module('antiSocialite.controllers', [])
 				};
 				var _u = [];
 				sms.send($scope.message.contactPhone,
-					$scope.message.text, options, success, error);
+				$scope.message.text, options, success, error);
 
 				window.plugin.notification.local.add({
 					autoCancel: true,
