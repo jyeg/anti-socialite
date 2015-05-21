@@ -9,7 +9,7 @@ angular.module('antiSocialite',
  	'LocalStorageModule',
 	'antiSocialite.controllers',
 	'antiSocialite.services'])
-
+//
 
 	.config(['$stateProvider', '$urlRouterProvider', 'localStorageServiceProvider', function($stateProvider, $urlRouterProvider, localStorageServiceProvider) {
 		//var authenticated = ['$q', 'AuthFactory', function ($q, AuthFactory) {
@@ -26,10 +26,19 @@ angular.module('antiSocialite',
 		//	return deferred.promise;
 		//}];
 
+		$urlRouterProvider.otherwise('/login');
+
 		$stateProvider
 			.state('loading', {
 				url: '/loading',
 				templateUrl: 'templates/loading.html'
+			})
+
+			.state('list', {
+				url: '/list',
+				templateUrl: 'templates/list.html',
+				controller: 'List',
+				authenticate: true
 			})
 
 			.state('intro', {
@@ -51,9 +60,10 @@ angular.module('antiSocialite',
 			.state('queue', {
 				url: '/queue',
 				templateUrl: 'templates/queue.html',
-				abstract: true
+				abstract: true,
+				authenticate: true
 				//data:{
-				//	requireLogin: true
+				//	requireLogin: t`rue
 				//}
 				//resolve: {
 				//	authenticated: authenticated
@@ -62,24 +72,39 @@ angular.module('antiSocialite',
 			.state('queue.messages', {
 				url: '',
 				templateUrl: 'templates/messages.html',
-				controller: 'QueueCtrl'
+				controller: 'QueueCtrl',
+				authenticate: true
 				//resolve: {
 				//	authenticated: authenticated
 				//}
 			})
-			.state('queue.message', {
+			.state('addMessage', {
 				url: '/messages/:id',
 				templateUrl: 'templates/message.html',
-				controller: 'MessageCtrl'
+				controller: 'MessageCtrl',
+				authenticate: true
 			})
-
 			.state('contacts', {
-				url: '/contacts',
 				templateUrl: 'templates/contacts.html',
-				controller: 'ContactsCtrl'
+				url: '/contacts',
+				controller: 'ContactsCtrl',
+				authenticate: true
+			})
+			.state('signup', {
+				templateUrl: 'templates/signup.html',
+				controller: 'Signup'
+			})
+			.state('addContact', {
+				templateUrl: 'templates/addContact.html',
+				controller: 'AddContact',
+				authenticate: true
+			})
+			.state('contactList', {
+				templateUrl: 'templates/contactList.html',
+				controller: 'ContactsCtrl',
+				authenticate:true
 			});
 
-		$urlRouterProvider.otherwise('/loading');
 
 
 
@@ -89,25 +114,21 @@ angular.module('antiSocialite',
 
 	}])
 
-	.run(['$ionicPlatform', '$rootScope', 'localStorageService', '$location', '$timeout', '$state', function($ionicPlatform, $rootScope, localStorageService, $location, $timeout, $state) {
+	.run(['$ionicPlatform', '$rootScope', 'localStorageService', '$location', '$timeout', '$state', 'Polling', function($ionicPlatform, $rootScope, localStorageService, $location, $timeout, $state, Polling) {
 		//var authenticated = ['$q', 'Auth', function ($q, Auth) {
-		//	var deferred = $q.defer();
-		//	Auth.isLoggedIn(false)
-		//		.then(function (isLoggedIn) {
-		//			if (isLoggedIn) {
-		//				deferred.resolve();
-		//			} else {
-		//				deferred.reject('Not logged in');
-		//			}
-		//		});
-		//	return deferred.promise;
-		//}];
+			//	var deferred = $q.defer();
+			//	Auth.isLoggedIn(false)
+			//		.then(function (isLoggedIn) {
+			//			if (isLoggedIn) {
+			//				deferred.resolve();
+			//			} else {
+			//				deferred.reject('Not logged in');
+			//			}
+			//		});
+			//	return deferred.promise;
+			//}];
 
-
-
-
-
-		//console.log("in .run");
+			//console.log("in .run");
 		$ionicPlatform.ready(function() {
 				if (window.cordova && window.cordova.plugins.Keyboard) {
 				cordova.plugins.Keyboard.hideKeyboardAccessoryBar(true);
@@ -124,6 +145,25 @@ angular.module('antiSocialite',
 				function(e) {
 					alert('Error: ' + e.ErrorMessage);
 				});
+
+			// Android customization
+		    cordova.plugins.backgroundMode.setDefaults({ text:'Watching scheduled messages'});
+		    // Enable background mode
+		    cordova.plugins.backgroundMode.enable();
+
+		    var intervalID;
+
+		    // Called when background mode has been activated
+		    cordova.plugins.backgroundMode.onactivate = function () {
+
+		        intervalID = setInterval(function () {
+		          Polling.pollForAndSendMessages();	
+		        }, 60000);
+		    };
+
+		    cordova.plugins.backgroundMode.ondeactivate = function() {
+		    	clearInterval(intervalID);
+		    };
 
 			var skipIntro;
 
@@ -146,34 +186,34 @@ angular.module('antiSocialite',
 			$rootScope.$on('$stateChangeStart',
 				function(event, toState, toParams, fromState) {
 					//alert('in state change start');
-					//if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
-					//	$location.path('/');
-					//}
-					//var requireLogin = toState.data.requireLogin;
-					//
-					//if (requireLogin && typeof $rootScope.currentUser === 'undefined') {
-					//	event.preventDefault();
-					//
-					//	loginModal()
-					//		.then(function () {
-					//			return $state.go(toState.name, toParams);
-					//		})
-					//		.catch(function () {
-					//			return $state.go('welcome');
-					//		});
-					//}
-
-					//$state.go('login');
-					//console.log('test');
-					//if(!localStorage.getItem("courageousTrapeze")){
-						//loginModal()
+						//if (next.$$route && next.$$route.authenticate && !Auth.isAuth()) {
+						//	$location.path('/');
+						//}
+						//var requireLogin = toState.data.requireLogin;
+						//
+						//if (requireLogin && typeof $rootScope.currentUser === 'undefined') {
+						//	event.preventDefault();
+						//
+						//	loginModal()
 						//		.then(function () {
 						//			return $state.go(toState.name, toParams);
 						//		})
 						//		.catch(function () {
 						//			return $state.go('welcome');
 						//		});
-					//}
+						//}
+
+						//$state.go('login');
+						//console.log('test');
+						//if(!localStorage.getItem("courageousTrapeze")){
+							//loginModal()
+							//		.then(function () {
+							//			return $state.go(toState.name, toParams);
+							//		})
+							//		.catch(function () {
+							//			return $state.go('welcome');
+							//		});
+						//}
 
 					skipIntro = localStorageService.get('skip') === 'true' ? true : false;
 

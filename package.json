@@ -53,6 +53,11 @@
     "org.apache.cordova.battery-status",
     "org.apache.cordova.contacts",
     "https://github.com/aharris88/phonegap-sms-plugin.git",
-    "https://github.com/phpsa/cbsp.git"
+    "https://github.com/phpsa/cbsp.git",
+    "https://github.com/katzer/cordova-plugin-background-mode.git",
+    "https://github.com/apache/cordova-plugin-whitelist.git"
+  ],
+  "cordovaPlatforms": [
+    "android"
   ]
 }

@@ -1,22 +1,32 @@
-<ion-view hide-back-button="false" title="antiSocialite">
+<ion-view hide-back-button="false" title="Contacts">
+    <ion-nav-buttons side="right">
+        <button class="button button-icon icon ion-close-circled"
+                ng-click="shouldShowDelete = !shouldShowDelete">
+        </button>
+    </ion-nav-buttons>
     <ion-content padding="true">
         <div class="list">
+            <button class="button button-full button-calm" ng-click="addContact()">Add Contact</button>
+
             <label class="item item-input">
                 <i class="icon ion-search placeholder-icon"></i>
                 <input type="text" ng-model="searchC" placeholder="Search Contacts...">
             </label>
-            <ul class="list">
-                <li class="item item-checkbox" ng-repeat="c in contacts | orderBy: 'displayName' | filter:searchContacts">
-                    <label class="checkbox">
-                        <input type="checkbox" ng-model="c.isChecked" ng-checked="c.isChecked" ng-change="handleContact(c)">
-                    </label>
-                    <h2>{{c.displayName}}</h2>
-                    <p>{{c.phoneNumbers[0].value}}</p>
-                </li>
-            </ul>
+
+            <ion-list show-delete="shouldShowDelete">
+                <ion-item class="item item-checkbox" ng-hide="deleted" ng-repeat="userStorage in contacts | orderBy: 'name' | filter:searchContacts" ng-click="edit(contact)">
+                    <h2>{{userStorage.name}}</h2>
+                    <p>{{userStorage.phone}}</p>
+                    <ion-delete-button class="ion-minus-circled"
+                   ng-click="onItemDelete(message); deleted=true">
+                    </ion-delete-button>
+                </ion-item>
+            </ion-list>
         </div>
     </ion-content>
     <ion-footer-bar class="bar-assertive">
         <h5 class="center-footer"><b>antiSocialite</b> crafted @ HackReactor</h5>
     </ion-footer-bar>
 </ion-view>
+
+
